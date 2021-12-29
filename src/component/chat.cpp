@@ -1,6 +1,7 @@
 #include <stdinc.hpp>
 
 #include "loader/component_loader.hpp"
+#include "utils/hook.hpp"
 #include "utils/string.hpp"
 
 #include "command.hpp"
@@ -60,11 +61,14 @@ namespace chat
 	public:
 		void post_unpack() override
 		{
+			utils::hook::call(SELECT(0x58DA1C, 0x0), client_command);
+
 			add_chat_commands();
 		}
 
 		void pre_destroy() override
 		{
+			mute_list.clear();
 		}
 
 	private:
@@ -121,7 +125,7 @@ namespace chat
 				if (params.size() < 2)
 				{
 					game::Com_Printf(game::CON_CHANNEL_DONT_FILTER,
-							"Usage: unmutePlayer <client number>\n");
+						"Usage: unmutePlayer <client number>\n");
 					return;
 				}
 
