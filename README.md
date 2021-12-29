@@ -2,7 +2,8 @@
 I have no clue as to what this does. I use this program to test experimental features.
 
 ## Thanks to
-*[momo5502](https://github.com/momo5502)
+* [momo5502](https://github.com/momo5502)
+* [ineedbots](https://github.com/ineedbots)
 
 ## Disclaimer
 
