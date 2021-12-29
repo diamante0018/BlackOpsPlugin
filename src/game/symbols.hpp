@@ -13,6 +13,8 @@ namespace game
 	WEAK symbol<void(LocalClientNum_t, int controllerIndex, const char* text)> Cmd_ExecuteSingleCommand{0x50B470, 0x0};
 
 	WEAK symbol<void(client_s*, svscmd_type, const char*, ...)> SV_SendServerCommand{0x588B10, 0x0};
+	WEAK symbol<void(int, svscmd_type, const char*)> SV_GameSendServerCommand{0x6B8730, 0x0};
+	WEAK symbol<void(int, char*, int)> SV_Cmd_ArgvBuffer{0x462CB0, 0x0};
 	WEAK symbol<void(client_s*, const char*)> SV_DelayDropClient{0x4A8DC0, 0x0};
 	WEAK symbol<client_s*()> SV_GetPlayerByName{0x875180, 0x0};
 	WEAK symbol<client_s*()> SV_GetPlayerByNum{0x875260, 0x0};
@@ -33,6 +35,7 @@ namespace game
 	WEAK symbol<char*(char*)> I_CleanStr{0x4B0700, 0x0};
 
 	WEAK symbol<char*(int)> ConcatArgs{0x5D5F10, 0x0};
+	WEAK symbol<void(int)> ClientCommand{0x63DB70, 0x0};
 	WEAK symbol<void(gentity_s*, gentity_s*, int, const char*)> G_Say{0x51BBD0, 0x0};
 
 	WEAK symbol<void(gentity_s*, unsigned __int16, unsigned int)> Scr_Notify{0x458D30, 0x0};
@@ -44,6 +47,7 @@ namespace game
 	WEAK symbol<CmdArgs> cmd_args{0x355BD88, 0x0};
 	WEAK symbol<int> dvarCount{0x385BE74, 0x0};
 	WEAK symbol<dvar_t*> sortedDvars{0x385BE88, 0x0};
-	WEAK symbol<gentity_s> g_entities{0x32E5784, 0x0};
+	WEAK symbol<client_s> svs_clients{0x372D11C, 0x0};
+	WEAK symbol<gentity_s> g_entities{0x32E5640, 0x0};
 	WEAK symbol<int> level_time{0x3443F4C, 0x0};
 } 

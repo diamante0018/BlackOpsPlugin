@@ -533,20 +533,26 @@ namespace game
 	struct client_s
 	{
 		clientHeader_t header;
-		const char* dropReason;
-		char userinfo[1024];
-		char reliableCommandBuffer[16384];
-		int reliableCommandBufferNext;
-		svscmd_info_t reliableCommandInfo[128];
-		int reliableSequence;
-		int reliableAcknowledge;
-		int reliableSent;
-		int messageAcknowledge;
-		int gamestateMessageNum;
-		int challenge;
-		usercmd_s lastUsercmd;
-		int lastClientCommand;
-		char lastClientCommandString[1024];
-		gentity_s* gentity;
+		const char* dropReason; // 1812
+		char userinfo[1024]; // 1816
+		char reliableCommandBuffer[16384]; // 2840
+		int reliableCommandBufferNext; // 19224
+		svscmd_info_t reliableCommandInfo[128]; // 19228
+		int reliableSequence; // 20764
+		int reliableAcknowledge; // 20768
+		int reliableSent; // 20772
+		int messageAcknowledge; // 20776
+		int gamestateMessageNum; // 20780
+		int challenge; // 20784
+		usercmd_s lastUsercmd; // 20788
+		int lastClientCommand; // 20840
+		char lastClientCommandString[1024]; // 20844
+		gentity_s* gentity; // 21868
+		char name[32]; // 21872
+		char clanAbbrev[5]; // 21904
+		unsigned __int64 xuid; // 21912
+		unsigned char __pad0[0x76D48];
 	};
+
+	static_assert(sizeof(client_s) == 0x7C2E8);
 }
