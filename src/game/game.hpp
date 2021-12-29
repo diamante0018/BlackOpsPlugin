@@ -1,6 +1,6 @@
 #pragma once
 
-#define SELECT(mp, zm) (game::environment::t6mp() ? mp : zm)
+#define SELECT(mp, zm) (game::environment::t5mp() ? mp : zm)
 
 namespace game
 {

@@ -127,35 +127,6 @@ namespace command
 			{
 				utils::nt::raise_hard_exception();
 			});
-
-			add("dvarDump", [](const params& params)
-			{
-				if (params.size() < 2)
-				{
-					return;
-				}
-
-				std::string filename = "dump/";
-				filename.append(params.get(1));
-				if (!filename.ends_with(".txt"))
-				{
-						filename.append(".txt");
-				}
-
-				for (auto i = 0; i < *game::dvarCount; i++)
-				{
-					const auto dvar = game::sortedDvars[i];
-
-					if (dvar)
-					{
-						const auto line = std::format("{} \"{}\"\r\n", dvar->name,
-							game::Dvar_DisplayableValue(dvar));
-						utils::io::write_file(filename, line, i != 0);
-					}
-				}
-
-				game::Com_Printf(game::CON_CHANNEL_SERVER, "%i dvars\n", *game::dvarCount);
-			});
 		}
 	};
 }

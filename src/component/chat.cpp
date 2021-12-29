@@ -9,7 +9,6 @@ namespace chat
 	public:
 		void post_unpack() override
 		{
-
 		}
 	};
 }
