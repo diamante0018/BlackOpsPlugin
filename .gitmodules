@@ -1,0 +1,9 @@
+[submodule "deps/GSL"]
+	path = deps/GSL
+	url = https://github.com/microsoft/GSL.git
+[submodule "deps/minhook"]
+	path = deps/minhook
+	url = https://github.com/TsudaKageyu/minhook.git
+[submodule "deps/rapidjson"]
+	path = deps/rapidjson
+	url = https://github.com/Tencent/rapidjson.git
