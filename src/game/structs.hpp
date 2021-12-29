@@ -219,6 +219,13 @@ namespace game
 
 	static_assert(sizeof(msg_t) == 48);
 
+	typedef enum
+	{
+		SCRIPTINSTANCE_SERVER,
+		SCRIPTINSTANCE_CLIENT,
+		SCRIPT_INSTANCE_MAX
+	} scriptInstance_t;
+
 	enum dvar_flags : unsigned __int16
 	{
 		DVAR_FLAG_SAVED = 0x1,
@@ -317,6 +324,22 @@ namespace game
 		PLAYER_FLAG_FROZEN = 1 << 2,
 	};
 
+	struct playerState_s
+	{
+		int commandTime;
+		int pm_type;
+		int bobCycle;
+		int pm_flags;
+		int weapFlags;
+		int otherFlags;
+		int pm_time;
+	};
+
+	struct pmove_t
+	{
+		playerState_s* ps;
+	};
+
 	struct gclient_s
 	{
 		char __pad0[10396];
@@ -364,7 +387,8 @@ namespace game
 	enum playerStateFlag
 	{
 		PMF_PRONE = 0x1,
-		PMF_DUCKED = 0x2
+		PMF_DUCKED = 0x2,
+		PMF_MANTLE = 0x4
 	};
 
 	struct gentity_s
@@ -441,15 +465,6 @@ namespace game
 		int flags;
 	};
 
-	enum EffectiveStance
-	{
-		PM_EFF_STANCE_DEFAULT = 0,
-		PM_EFF_STANCE_PRONE = 1,
-		PM_EFF_STANCE_DUCKED = 2,
-		PM_EFF_STANCE_LASTSTANDCRAWL = 3,
-		PM_EFF_STANCE_COUNT = 4
-	};
-
 	enum ViewLockTypes
 	{
 		PLAYERVIEWLOCK_NONE = 0,
@@ -496,11 +511,11 @@ namespace game
 
 	struct clientHeader_t
 	{
-		clientState_t state; // 0
-		int sendAsActive; // 4
-		int deltaMessage; // 8
-		int rateDealyed; // 12
-		netchan_t netchan; // 24
+		clientState_t state;
+		int sendAsActive;
+		int deltaMessage;
+		int rateDealyed;
+		netchan_t netchan;
 		vec3_t predictedOrigin;
 		int predictedOriginServerTime;
 		PredictedVehicleInfo vehicle;
@@ -523,5 +538,15 @@ namespace game
 		char reliableCommandBuffer[16384];
 		int reliableCommandBufferNext;
 		svscmd_info_t reliableCommandInfo[128];
+		int reliableSequence;
+		int reliableAcknowledge;
+		int reliableSent;
+		int messageAcknowledge;
+		int gamestateMessageNum;
+		int challenge;
+		usercmd_s lastUsercmd;
+		int lastClientCommand;
+		char lastClientCommandString[1024];
+		gentity_s* gentity;
 	};
 }
