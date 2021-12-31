@@ -24,9 +24,9 @@ namespace gameplay
 	public:
 		void post_unpack() override
 		{
-			player_meleeRange = reinterpret_cast<const game::dvar_s*>(SELECT(0xC51990, 0x0));
+			player_meleeRange = reinterpret_cast<const game::dvar_s*>(SELECT(0xC51990, 0xBCAFE4));
 
-			fire_weapon_melee_hook.create(SELECT(0x401E00, 0x0), &fire_weapon_melee_stub);
+			fire_weapon_melee_hook.create(SELECT(0x401E00, 0x465E40), &fire_weapon_melee_stub);
 		}
 	};
 }

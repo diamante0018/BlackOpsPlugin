@@ -61,7 +61,7 @@ namespace chat
 	public:
 		void post_unpack() override
 		{
-			utils::hook::call(SELECT(0x58DA1C, 0x0), client_command);
+			utils::hook::call(SELECT(0x58DA1C, 0x4FB3BD), client_command);
 
 			add_chat_commands();
 		}
