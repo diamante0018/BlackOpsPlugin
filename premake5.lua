@@ -78,7 +78,7 @@ defines {"DEBUG", "_DEBUG"}
 filter {}
 
 project "black-ops-plugin"
-kind "StaticLib"
+kind "SharedLib"
 language "C++"
 
 files {"./src/**.hpp", "./src/**.cpp"}
