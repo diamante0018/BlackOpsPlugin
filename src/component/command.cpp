@@ -7,6 +7,8 @@
 
 #include "command.hpp"
 
+constexpr auto CMD_MAX_NESTING = 8;
+
 namespace command
 {
 	std::unordered_map<std::string, std::function<void(params&)>> handlers;
@@ -25,6 +27,7 @@ namespace command
 	params::params()
 		: nesting_(game::sv_cmd_args->nesting)
 	{
+		assert(game::sv_cmd_args->nesting < CMD_MAX_NESTING);
 	}
 
 	int params::size() const
