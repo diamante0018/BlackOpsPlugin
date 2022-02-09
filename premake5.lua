@@ -28,12 +28,6 @@ function dependencies.projects()
 	end
 end
 
-newoption {
-	trigger = "copy-to",
-	description = "Optional, copy the EXE to a custom folder after build, define the path here if wanted.",
-	value = "PATH"
-}
-
 dependencies.load()
 
 workspace "black-ops-plugin"
@@ -45,6 +39,7 @@ targetname "%{prj.name}"
 configurations {"Debug", "Release"}
 
 language "C++"
+cppdialect "C++20"
 
 architecture "x86"
 platforms "x86"
@@ -58,23 +53,21 @@ characterset "ASCII"
 
 flags { "NoIncrementalLink", "NoMinimalRebuild", "MultiProcessorCompile", "No64BitChecks" }
 
-filter "windows"
-defines {"_WINDOWS", "WIN32"}
+filter "platforms:x86"
+	defines {"_WINDOWS", "WIN32"}
+filter {}
 
-filter "Release"
-optimize "Size"
-buildoptions {"/GL"}
-linkoptions { "/IGNORE:4702", "/LTCG" }
+filter "configurations:Release"
+	optimize "Size"
+	buildoptions {"/GL"}
+	linkoptions { "/IGNORE:4702", "/LTCG" }
+	defines {"NDEBUG"}
+	flags {"FatalCompileWarnings"}
+filter {}
 
-defines {"NDEBUG"}
-
-flags {"FatalCompileWarnings"}
-
-filter "Debug"
-optimize "Debug"
-
-defines {"DEBUG", "_DEBUG"}
-
+filter "configurations:Debug"
+	optimize "Debug"
+	defines {"DEBUG", "_DEBUG"}
 filter {}
 
 project "black-ops-plugin"
@@ -89,6 +82,3 @@ dependencies.imports()
 
 group "Dependencies"
 dependencies.projects()
-
-workspace "*"
-	cppdialect "C++20"

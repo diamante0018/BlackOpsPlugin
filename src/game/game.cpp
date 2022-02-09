@@ -8,12 +8,12 @@ namespace game
 
 	namespace environment
 	{
-		bool t6mp()
+		bool t5mp()
 		{
 			return current == gamemode::multiplayer;
 		}
 
-		bool t6zm()
+		bool t5zm()
 		{
 			return current == gamemode::zombies;
 		}

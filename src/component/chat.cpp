@@ -10,10 +10,12 @@ namespace chat
 {
 	namespace
 	{
+		std::mutex chat_mutex;
 		std::unordered_set<std::uint64_t> mute_list{};
 
 		void mute_player(const game::client_s* cl)
 		{
+			std::unique_lock<std::mutex> _(chat_mutex);
 			if (mute_list.contains(cl->xuid))
 			{
 				game::SV_GameSendServerCommand(-1, game::SV_CMD_CAN_IGNORE,
@@ -26,6 +28,7 @@ namespace chat
 
 		void unmute_player(const game::client_s* cl)
 		{
+			std::unique_lock<std::mutex> _(chat_mutex);
 			mute_list.erase(cl->xuid);
 
 			game::SV_GameSendServerCommand(cl->gentity->entnum, game::SV_CMD_CAN_IGNORE,
@@ -44,6 +47,7 @@ namespace chat
 
 			game::SV_Cmd_ArgvBuffer(0, buf, sizeof(buf));
 
+			std::unique_lock<std::mutex> _(chat_mutex);
 			if (utils::string::starts_with(buf, "say") &&
 				mute_list.contains(game::svs_clients[clientNumber].xuid))
 			{
@@ -66,11 +70,6 @@ namespace chat
 			add_chat_commands();
 		}
 
-		void pre_destroy() override
-		{
-			mute_list.clear();
-		}
-
 	private:
 		static void add_chat_commands()
 		{
@@ -79,7 +78,7 @@ namespace chat
 				if (params.size() < 3)
 				{
 					game::Com_Printf(game::CON_CHANNEL_DONT_FILTER,
-						"Usage: sayAs <client number>\n");
+						"Usage: sayAs <client number> <message>\n");
 					return;
 				}
 

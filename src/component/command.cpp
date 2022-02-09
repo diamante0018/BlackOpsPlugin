@@ -23,13 +23,13 @@ namespace command
 	}
 
 	params::params()
-		: nesting_(game::cmd_args->nesting)
+		: nesting_(game::sv_cmd_args->nesting)
 	{
 	}
 
 	int params::size() const
 	{
-		return game::cmd_args->argc[this->nesting_];
+		return game::sv_cmd_args->argc[this->nesting_];
 	}
 
 	const char* params::get(const int index) const
@@ -39,7 +39,7 @@ namespace command
 			return "";
 		}
 
-		return game::cmd_args->argv[this->nesting_][index];
+		return game::sv_cmd_args->argv[this->nesting_][index];
 	}
 
 	std::string params::join(const int index) const

@@ -19,7 +19,6 @@
 #include <unordered_set>
 #include <map>
 #include <vector>
-#include <csetjmp>
 
 #include <rapidjson/document.h>
 #include <rapidjson/prettywriter.h>

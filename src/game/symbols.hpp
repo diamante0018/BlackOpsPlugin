@@ -51,7 +51,7 @@ namespace game
 
 	WEAK symbol<int(const playerState_s*)> PM_GetEffectiveStance{0x659590, 0x0};
 
-	WEAK symbol<CmdArgs> cmd_args{0x355BD88, 0x243D208};
+	WEAK symbol<CmdArgs> sv_cmd_args{0x355BD88, 0x243D208};
 	WEAK symbol<int> dvarCount{0x385BE74, 0x261CBD4};
 	WEAK symbol<dvar_t*> sortedDvars{0x385BE88, 0x261CBE8};
 	WEAK symbol<client_s> svs_clients{0x372D11C, 0x286D01C};
