@@ -64,7 +64,7 @@ namespace bots
 		}
 
 		int build_connect_string(char* buf, const char* connect_string, const char* name, const char* xuid,
-			int protocol,int port)
+			int protocol, int port)
 		{
 			// Default
 			auto clan_tag = "3arc"s;
