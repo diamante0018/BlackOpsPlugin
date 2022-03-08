@@ -44,7 +44,7 @@ jobs:
         uses: ammaraskar/msvc-problem-matcher@master
 
       - name: Build ${{matrix.configuration}} binaries
-        run: msbuild /m /v:minimal /p:Configuration=${{matrix.configuration}} /p:Platform=x86 build/black-ops-plugin.sln
+        run: msbuild /m /v:minimal /p:Configuration=${{matrix.configuration}} build/black-ops-plugin.sln
 
       - name: Upload ${{matrix.configuration}} binaries
         uses: actions/upload-artifact@v2
