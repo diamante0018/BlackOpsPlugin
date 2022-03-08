@@ -9,16 +9,17 @@
 
 #include <windows.h>
 
-#include <vector>
+#include <algorithm>
 #include <cassert>
+#include <functional>
+#include <iostream>
+#include <map>
 #include <mutex>
 #include <string>
-#include <iostream>
-#include <algorithm>
-#include <functional>
 #include <unordered_set>
-#include <map>
 #include <vector>
+
+#pragma warning(disable : 26812)
 
 #include <rapidjson/document.h>
 #include <rapidjson/prettywriter.h>
@@ -28,5 +29,7 @@
 
 using namespace std::literals;
 
+// clang-format off
 #include "game/structs.hpp"
 #include "game/game.hpp"
+// clang-format on
