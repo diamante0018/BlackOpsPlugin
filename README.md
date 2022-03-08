@@ -1,3 +1,5 @@
+[![build](https://github.com/diamante0018/BlackOpsPlugin/workflows/Build/badge.svg)](https://github.com/diamante0018/BlackOpsPlugin/actions)
+
 # Black-Ops-Plugin
 I have no clue as to what this does. I use this program to test experimental features.
 
