@@ -56,7 +56,7 @@ void add_raw(const char* name, void (*callback)()) {
 void add(const char* name, const std::function<void(const params&)>& callback) {
   const auto command = utils::string::to_lower(name);
 
-  if (!handlers.contains(name)) {
+  if (!handlers.contains(command)) {
     add_raw(name, main_handler);
   }
 
