@@ -220,7 +220,7 @@ typedef enum : char {
   DVAR_TYPE_INT64 = 0x9,
   DVAR_TYPE_LINEAR_COLOR_RGB = 0xA,
   DVAR_TYPE_COLOR_XYZ = 0xB,
-  DVAR_TYPE_COUNT = 0xC
+  DVAR_TYPE_COUNT = 0xC,
 } dvarType_t;
 
 union DvarValue {

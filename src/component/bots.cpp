@@ -7,8 +7,7 @@
 
 namespace bots {
 namespace {
-typedef std::pair<std::string, std::string> bot_entry;
-
+using bot_entry = std::pair<std::string, std::string>;
 std::vector<bot_entry> bot_names;
 utils::hook::detour sv_bot_name_random_hook;
 

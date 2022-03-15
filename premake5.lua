@@ -42,7 +42,7 @@ language "C++"
 cppdialect "C++20"
 
 architecture "x86"
-platforms "x86"
+platforms "Win32"
 
 systemversion "latest"
 symbols "On"
@@ -53,7 +53,7 @@ characterset "ASCII"
 
 flags { "NoIncrementalLink", "NoMinimalRebuild", "MultiProcessorCompile", "No64BitChecks" }
 
-filter "platforms:x86"
+filter "platforms:Win*"
 	defines {"_WINDOWS", "WIN32"}
 filter {}
 

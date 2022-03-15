@@ -13,6 +13,7 @@ std::unordered_set<std::uint64_t> mute_list{};
 
 void mute_player(const game::client_s* cl) {
   std::unique_lock<std::mutex> _(chat_mutex);
+
   if (mute_list.contains(cl->xuid)) {
     game::SV_GameSendServerCommand(
         -1, game::SV_CMD_CAN_IGNORE,
@@ -25,6 +26,7 @@ void mute_player(const game::client_s* cl) {
 
 void unmute_player(const game::client_s* cl) {
   std::unique_lock<std::mutex> _(chat_mutex);
+
   mute_list.erase(cl->xuid);
 
   game::SV_GameSendServerCommand(

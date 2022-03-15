@@ -44,12 +44,12 @@ jobs:
         uses: ammaraskar/msvc-problem-matcher@master
 
       - name: Build ${{matrix.configuration}} binaries
-        run: msbuild /m /v:minimal /p:Configuration=${{matrix.configuration}} build/black-ops-plugin.sln
+        run: msbuild /m /v:minimal /p:Configuration=${{matrix.configuration}} /p:Platform=Win32 build/black-ops-plugin.sln
 
       - name: Upload ${{matrix.configuration}} binaries
         uses: actions/upload-artifact@v2
         with:
           name: ${{matrix.configuration}} binaries
           path: |
-            build/bin/x86/${{matrix.configuration}}/black-ops-plugin.dll
-            build/bin/x86/${{matrix.configuration}}/black-ops-plugin.pdb
+            build/bin/Win32/${{matrix.configuration}}/black-ops-plugin.dll
+            build/bin/Win32/${{matrix.configuration}}/black-ops-plugin.pdb
