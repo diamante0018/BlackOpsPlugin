@@ -15,11 +15,11 @@ bool out_of_band_print_hk(game::netsrc_t src, game::netadr_s to,
     return game::NET_OutOfBandPrint(src, to, msg);
   }
 
-  const auto errorMsg =
+  const auto error_msg =
       std::format("error\nPermanently banned\nDiscord: {}\nWebsite: {}",
                   sv_discord->current.string, sv_clanWebsite->current.string);
 
-  return game::NET_OutOfBandPrint(src, to, errorMsg.data());
+  return game::NET_OutOfBandPrint(src, to, error_msg.data());
 }
 } // namespace
 

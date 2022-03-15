@@ -34,10 +34,10 @@ void unmute_player(const game::client_s* cl) {
       utils::string::va("%c \"You were unmuted\"", 0x65));
 }
 
-void client_command(int clientNumber) {
+void client_command(int client_number) {
   char buf[1024] = {0};
 
-  if (game::g_entities[clientNumber].client == nullptr) {
+  if (game::g_entities[client_number].client == nullptr) {
     // Not in game
     return;
   }
@@ -46,14 +46,14 @@ void client_command(int clientNumber) {
 
   std::unique_lock<std::mutex> _(chat_mutex);
   if (utils::string::starts_with(buf, "say") &&
-      mute_list.contains(game::svs_clients[clientNumber].xuid)) {
+      mute_list.contains(game::svs_clients[client_number].xuid)) {
     game::SV_GameSendServerCommand(
-        clientNumber, game::SV_CMD_CAN_IGNORE,
+        client_number, game::SV_CMD_CAN_IGNORE,
         utils::string::va("%c \"You are muted\"", 0x65));
     return;
   }
 
-  game::ClientCommand(clientNumber);
+  game::ClientCommand(client_number);
 }
 } // namespace
 
@@ -79,7 +79,7 @@ private:
       if (client == nullptr)
         return;
 
-      auto* gentity = client->gentity;
+      auto* const gentity = client->gentity;
       assert(gentity != nullptr);
 
       if (gentity->client == nullptr)

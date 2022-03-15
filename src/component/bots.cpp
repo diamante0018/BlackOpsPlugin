@@ -23,7 +23,7 @@ void load_bot_data() {
   }
 
   rapidjson::Document obj;
-  rapidjson::ParseResult result =
+  const rapidjson::ParseResult result =
       obj.Parse(utils::io::read_file("bots/bots.json").data());
 
   if (!result || !obj.IsObject()) {
@@ -46,8 +46,8 @@ const char* sv_bot_name_random_stub() {
     load_bot_data();
   }
 
-  static auto bot_id = 0;
   if (!bot_names.empty()) {
+    static size_t bot_id = 0;
     bot_id %= bot_names.size();
     const auto& entry = bot_names.at(bot_id++);
     return entry.first.data();
@@ -61,9 +61,9 @@ int build_connect_string(char* buf, const char* connect_string,
                          int port) {
   // Default
   auto clan_tag = "3arc"s;
-  for (const auto& entry : bot_names) {
-    if (entry.first == name) {
-      clan_tag = entry.second;
+  for (const auto& [bot_name, tag] : bot_names) {
+    if (bot_name == name) {
+      clan_tag = tag;
       break;
     }
   }

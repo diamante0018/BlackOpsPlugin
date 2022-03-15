@@ -16,8 +16,9 @@ void main_handler() {
   params params = {};
 
   const auto command = utils::string::to_lower(params[0]);
-  if (handlers.find(command) != handlers.end()) {
-    handlers[command](params);
+
+  if (const auto got = handlers.find(command); got != handlers.end()) {
+    got->second(params);
   }
 }
 
@@ -55,7 +56,7 @@ void add_raw(const char* name, void (*callback)()) {
 void add(const char* name, const std::function<void(const params&)>& callback) {
   const auto command = utils::string::to_lower(name);
 
-  if (handlers.find(command) == handlers.end()) {
+  if (!handlers.contains(name)) {
     add_raw(name, main_handler);
   }
 
