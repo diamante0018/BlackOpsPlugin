@@ -14,9 +14,6 @@ utils::hook::detour sv_bot_name_random_hook;
 // Json file is expected to contain a key for the bot's name. Value should be a
 // string for the clantag
 void load_bot_data() {
-  const auto* path = game::Dvar_FindVar("fs_homepath")->current.string;
-  std::filesystem::current_path(path);
-
   if (!utils::io::file_exists("bots/bots.json")) {
     game::Com_Printf(game::CON_CHANNEL_SERVER, "bots.json was not found\n");
     return;

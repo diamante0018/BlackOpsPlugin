@@ -19,7 +19,6 @@ public:
 
   T* get() const {
     if (environment::t5mp()) {
-
       return t5mp_;
     }
 
