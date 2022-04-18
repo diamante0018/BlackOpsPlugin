@@ -24,8 +24,7 @@ std::vector<std::string> split(const std::string& s, const char delim) {
   std::vector<std::string> elems;
 
   while (std::getline(ss, item, delim)) {
-    elems.push_back(item); // elems.push_back(std::move(item)); // if C++11
-                           // (based on comment from @mchiasson)
+    elems.push_back(item); // elems.push_back(std::move(item)); if C++11
   }
 
   return elems;
@@ -92,12 +91,12 @@ std::string get_clipboard_data() {
   return {};
 }
 
-void strip(const char* in, char* out, int max) {
+void strip(const char* in, char* out, size_t max) {
   if (!in || !out)
     return;
 
   max--;
-  auto current = 0;
+  size_t current = 0;
   while (*in != 0 && current < max) {
     const auto color_index = (*(in + 1) - 48) >= 0xC ? 7 : (*(in + 1) - 48);
 
@@ -111,6 +110,7 @@ void strip(const char* in, char* out, int max) {
 
     ++in;
   }
+
   *out = '\0';
 }
 

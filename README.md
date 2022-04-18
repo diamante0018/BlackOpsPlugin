@@ -1,7 +1,7 @@
 [![build](https://github.com/diamante0018/BlackOpsPlugin/workflows/Build/badge.svg)](https://github.com/diamante0018/BlackOpsPlugin/actions)
 
 # Black-Ops-Plugin
-I have no clue as to what this does. I use this program to test experimental features.
+I use this program to test experimental features. Some may end up in the plutonium client. Some may not.
 
 ## Thanks to
 * [momo5502](https://github.com/momo5502) - Core component loader & utils

@@ -11,7 +11,9 @@ bool move_file(const std::string& src, const std::string& target) {
   return MoveFileA(src.data(), target.data()) == TRUE;
 }
 
-bool file_exists(const std::string& file) { return std::ifstream(file).good(); }
+bool file_exists(const std::string& file) {
+  return std::filesystem::exists(file);
+}
 
 bool write_file(const std::string& file, const std::string& data,
                 const bool append) {
@@ -54,7 +56,7 @@ bool read_file(const std::string& file, std::string* data) {
 
     if (size > -1) {
       data->resize(static_cast<uint32_t>(size));
-      stream.read(const_cast<char*>(data->data()), size);
+      stream.read(data->data(), size);
       stream.close();
       return true;
     }

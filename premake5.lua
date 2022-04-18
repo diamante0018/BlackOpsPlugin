@@ -51,7 +51,7 @@ editandcontinue "Off"
 warnings "Extra"
 characterset "ASCII"
 
-flags { "NoIncrementalLink", "NoMinimalRebuild", "MultiProcessorCompile", "No64BitChecks" }
+flags {"NoIncrementalLink", "NoMinimalRebuild", "MultiProcessorCompile", "No64BitChecks"}
 
 filter "platforms:Win*"
 	defines {"_WINDOWS", "WIN32"}
@@ -60,7 +60,7 @@ filter {}
 filter "configurations:Release"
 	optimize "Size"
 	buildoptions {"/GL"}
-	linkoptions { "/IGNORE:4702", "/LTCG" }
+	linkoptions {"/IGNORE:4702", "/LTCG"}
 	defines {"NDEBUG"}
 	flags {"FatalCompileWarnings"}
 filter {}
@@ -70,13 +70,36 @@ filter "configurations:Debug"
 	defines {"DEBUG", "_DEBUG"}
 filter {}
 
-project "black-ops-plugin"
+project "common"
+kind "StaticLib"
+language "C++"
+
+files {"./src/common/**.hpp", "./src/common/**.cpp"}
+
+includedirs {"./src/common", "%{prj.location}/src"}
+
+resincludedirs {"$(ProjectDir)src"}
+
+dependencies.imports()
+
+project "client"
 kind "SharedLib"
 language "C++"
 
-files {"./src/**.hpp", "./src/**.cpp"}
+targetname "black-ops-plugin"
 
-includedirs {"src"}
+pchheader "std_include.hpp"
+pchsource "src/client/std_include.cpp"
+
+linkoptions {"/IGNORE:4254", "/PDBCompress"}
+
+files {"./src/client/**.hpp", "./src/client/**.cpp"}
+
+includedirs {"./src/client", "./src/common", "%{prj.location}/src"}
+
+resincludedirs {"$(ProjectDir)src"}
+
+links {"common"}
 
 dependencies.imports()
 

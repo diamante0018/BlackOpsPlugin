@@ -32,7 +32,7 @@ WEAK symbol<bool(netsrc_t, netadr_s, const char*)> NET_OutOfBandPrint{0x560BB0,
                                                                       0x472850};
 WEAK symbol<const char*(netadr_s)> NET_AdrToString{0x49F970, 0x40D790};
 
-WEAK symbol<dvar_s*(const char*)> Dvar_FindVar{0x512F70, 0x5AE810};
+WEAK symbol<const dvar_s*(const char*)> Dvar_FindVar{0x512F70, 0x5AE810};
 WEAK symbol<const char*(const dvar_s*)> Dvar_DisplayableValue{0x681DD0,
                                                               0x5B56F0};
 WEAK symbol<const char*(const dvar_s*)> Dvar_DisplayableLatchedValue{0x4AE1A0,

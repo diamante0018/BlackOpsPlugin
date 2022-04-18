@@ -2,9 +2,24 @@
 #include "signature.hpp"
 
 #define CalculateRelativeJMPAddress(X, Y)                                      \
-  (((std::uintptr_t)Y - (std::uintptr_t)X) - 5)
+  (((std::uintptr_t)(Y) - (std::uintptr_t)(X)) - 5)
+
+#include <asmjit/core/jitruntime.h>
+#include <asmjit/x86/x86assembler.h>
+
+using namespace asmjit::x86;
 
 namespace utils::hook {
+class assembler : public Assembler {
+public:
+  using Assembler::Assembler;
+  using Assembler::call;
+  using Assembler::jmp;
+
+  asmjit::Error call(void* target);
+  asmjit::Error jmp(void* target);
+};
+
 class detour {
 public:
   detour() = default;
@@ -69,6 +84,8 @@ void jump(std::uintptr_t address, void* destination);
 
 void redirect_jump(void* pointer, void* data);
 void redirect_jump(size_t pointer, void* data);
+
+void* assemble(const std::function<void(assembler&)>& asm_function);
 
 template <typename T> T extract(void* address) {
   const auto data = static_cast<uint8_t*>(address);

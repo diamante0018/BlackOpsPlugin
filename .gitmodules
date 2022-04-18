@@ -7,3 +7,6 @@
 [submodule "deps/rapidjson"]
 	path = deps/rapidjson
 	url = https://github.com/Tencent/rapidjson.git
+[submodule "deps/asmjit"]
+	path = deps/asmjit
+	url = https://github.com/asmjit/asmjit.git

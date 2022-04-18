@@ -17,6 +17,14 @@ public:
 } __;
 } // namespace
 
+asmjit::Error assembler::call(void* target) {
+  return Assembler::call(size_t(target));
+}
+
+asmjit::Error assembler::jmp(void* target) {
+  return Assembler::jmp(size_t(target));
+}
+
 detour::detour(const size_t place, void* target)
     : detour(reinterpret_cast<void*>(place), target) {}
 
@@ -152,5 +160,21 @@ void redirect_jump(void* pointer, void* data) {
 
 void redirect_jump(size_t pointer, void* data) {
   redirect_jump(reinterpret_cast<void*>(pointer), data);
+}
+
+void* assemble(const std::function<void(assembler&)>& asm_function) {
+  static asmjit::JitRuntime runtime;
+
+  asmjit::CodeHolder code;
+  code.init(runtime.environment());
+
+  assembler a(&code);
+
+  asm_function(a);
+
+  void* result = nullptr;
+  runtime.add(&result, &code);
+
+  return result;
 }
 } // namespace utils::hook

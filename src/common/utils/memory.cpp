@@ -9,7 +9,7 @@ memory::allocator::~allocator() { this->clear(); }
 void memory::allocator::clear() {
   std::lock_guard _(this->mutex_);
 
-  for (auto& data : this->pool_) {
+  for (const auto& data : this->pool_) {
     memory::free(data);
   }
 

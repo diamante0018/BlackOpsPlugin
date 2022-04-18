@@ -1,6 +1,5 @@
 #pragma once
 #include "memory.hpp"
-#include <cstdint>
 
 #ifndef ARRAYSIZE
 template <class Type, size_t n> size_t ARRAYSIZE(Type (&)[n]) { return n; }
@@ -87,7 +86,7 @@ std::string dump_hex(const std::string& data,
 
 std::string get_clipboard_data();
 
-void strip(const char* in, char* out, int max);
+void strip(const char* in, char* out, size_t max);
 
 std::string convert(const std::wstring& wstr);
 std::wstring convert(const std::string& str);

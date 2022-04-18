@@ -1,8 +1,8 @@
-#include <stdinc.hpp>
+#include <std_include.hpp>
 
-#include "loader/component_loader.hpp"
-#include "utils/hook.hpp"
-#include "utils/string.hpp"
+#include "../loader/component_loader.hpp"
+#include <utils/hook.hpp>
+#include <utils/string.hpp>
 
 #include "command.hpp"
 
@@ -11,26 +11,26 @@ namespace {
 std::mutex chat_mutex;
 std::unordered_set<std::uint64_t> mute_list{};
 
-void mute_player(const game::client_s* cl) {
+void mute_player(const game::client_s* client) {
   std::unique_lock<std::mutex> _(chat_mutex);
 
-  if (mute_list.contains(cl->xuid)) {
+  if (mute_list.contains(client->xuid)) {
     game::SV_GameSendServerCommand(
         -1, game::SV_CMD_CAN_IGNORE,
-        utils::string::va("%c \"%s is already muted\"", 0x65, cl->name));
+        utils::string::va("%c \"%s is already muted\"", 0x65, client->name));
     return;
   }
 
-  mute_list.insert(cl->xuid);
+  mute_list.insert(client->xuid);
 }
 
-void unmute_player(const game::client_s* cl) {
+void unmute_player(const game::client_s* client) {
   std::unique_lock<std::mutex> _(chat_mutex);
 
-  mute_list.erase(cl->xuid);
+  mute_list.erase(client->xuid);
 
   game::SV_GameSendServerCommand(
-      cl->gentity->entnum, game::SV_CMD_CAN_IGNORE,
+      client->gentity->entnum, game::SV_CMD_CAN_IGNORE,
       utils::string::va("%c \"You were unmuted\"", 0x65));
 }
 

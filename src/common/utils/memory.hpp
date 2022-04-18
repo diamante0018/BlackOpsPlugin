@@ -18,11 +18,9 @@ public:
 
     void* allocate(size_t length);
 
-    template <typename T> inline T* allocate() {
-      return this->allocate_array<T>(1);
-    }
+    template <typename T> T* allocate() { return this->allocate_array<T>(1); }
 
-    template <typename T> inline T* allocate_array(const size_t count = 1) {
+    template <typename T> T* allocate_array(const size_t count = 1) {
       return static_cast<T*>(this->allocate(count * sizeof(T)));
     }
 
@@ -37,12 +35,9 @@ public:
 
   static void* allocate(size_t length);
 
-  template <typename T> static inline T* allocate() {
-    return allocate_array<T>(1);
-  }
+  template <typename T> static T* allocate() { return allocate_array<T>(1); }
 
-  template <typename T>
-  static inline T* allocate_array(const size_t count = 1) {
+  template <typename T> static T* allocate_array(const size_t count = 1) {
     return static_cast<T*>(allocate(count * sizeof(T)));
   }
 

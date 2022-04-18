@@ -276,10 +276,9 @@ typedef struct dvar_s {
   DvarValue saved;
   DvarLimits domain;
   dvar_s* hashNext;
-  unsigned char pad0[8];
 } dvar_t;
 
-static_assert(sizeof(dvar_s) == 112);
+static_assert(sizeof(dvar_s) == 104);
 
 enum playerFlag {
   PLAYER_FLAG_NOCLIP = 1 << 0,

@@ -1,9 +1,9 @@
-#include <stdinc.hpp>
+#include <std_include.hpp>
 
-#include "loader/component_loader.hpp"
+#include "../loader/component_loader.hpp"
 
-#include "utils/hook.hpp"
-#include "utils/io.hpp"
+#include <utils/hook.hpp>
+#include <utils/io.hpp>
 
 namespace bots {
 namespace {
@@ -14,7 +14,7 @@ utils::hook::detour sv_bot_name_random_hook;
 // Json file is expected to contain a key for the bot's name. Value should be a
 // string for the clantag
 void load_bot_data() {
-  const auto path = game::Dvar_FindVar("fs_homepath")->current.string;
+  const auto* path = game::Dvar_FindVar("fs_homepath")->current.string;
   std::filesystem::current_path(path);
 
   if (!utils::io::file_exists("bots/bots.json")) {

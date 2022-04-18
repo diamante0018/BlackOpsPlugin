@@ -1,4 +1,4 @@
-#include <stdinc.hpp>
+#include <std_include.hpp>
 
 namespace game {
 gamemode current = reinterpret_cast<const char*>(0xA6840C) == "multiplayer"s
