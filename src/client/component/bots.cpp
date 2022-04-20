@@ -39,8 +39,11 @@ void load_bot_data() {
 }
 
 const char* sv_bot_name_random_stub() {
-  if (bot_names.empty()) {
+  static auto loaded = false;
+
+  if (bot_names.empty() && !loaded) {
     load_bot_data();
+    loaded = true;
   }
 
   if (!bot_names.empty()) {
@@ -60,6 +63,7 @@ int build_connect_string(char* buf, const char* connect_string,
   auto clan_tag = "3arc"s;
   for (const auto& [bot_name, tag] : bot_names) {
     if (bot_name == name) {
+      // Found their clantag
       clan_tag = tag;
       break;
     }
