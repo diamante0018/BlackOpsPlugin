@@ -13,7 +13,9 @@ namespace command {
 std::unordered_map<std::string, std::function<void(params&)>> handlers;
 
 namespace {
-void cmd_vstr_f(const params& params) {
+void cmd_vstr_f() {
+  const params params;
+
   if (params.size() < 2) {
     game::Com_Printf(game::CON_CHANNEL_DONT_FILTER,
                      "vstr <variablename> : execute a variable command\n");
@@ -31,6 +33,7 @@ void cmd_vstr_f(const params& params) {
 
   if (dvar->type == game::DVAR_TYPE_STRING ||
       dvar->type == game::DVAR_TYPE_ENUM) {
+    // Adds \n automatically
     execute(dvar->current.string);
   } else {
     game::Com_Printf(game::CON_CHANNEL_DONT_FILTER,
@@ -77,7 +80,7 @@ std::string params::join(const int index) const {
 void add_raw(const char* name, void (*callback)()) {
   game::Cmd_AddCommandInternal(
       name, callback,
-      utils::memory::get_allocator()->allocate<game::cmd_function_t>());
+      utils::memory::get_allocator()->allocate<game::cmd_function_s>());
 }
 
 void add(const char* name, const std::function<void(const params&)>& callback) {
@@ -116,8 +119,11 @@ private:
       game::Com_Printf(game::CON_CHANNEL_DONT_FILTER, "\n");
     });
 
-    game::Cmd_RemoveCommand("vstr");
-    add("vstr", cmd_vstr_f);
+    // Override vstr this way
+    auto* cmd = game::Cmd_FindCommand("vstr");
+    if (cmd != nullptr) {
+      cmd->function = cmd_vstr_f;
+    }
   }
 };
 } // namespace command

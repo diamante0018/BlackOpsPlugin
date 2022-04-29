@@ -130,8 +130,8 @@ struct usercmd_s {
 
 static_assert(sizeof(usercmd_s) == 52);
 
-struct cmd_function_t {
-  cmd_function_t* next;
+struct cmd_function_s {
+  cmd_function_s* next;
   const char* name;
   const char* autoCompleteDir;
   const char* autoCompleteExt;
@@ -139,7 +139,7 @@ struct cmd_function_t {
   bool consoleAccess;
 };
 
-static_assert(sizeof(cmd_function_t) == 24);
+static_assert(sizeof(cmd_function_s) == 24);
 
 struct CmdArgs {
   int nesting;

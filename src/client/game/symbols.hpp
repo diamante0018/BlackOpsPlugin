@@ -49,10 +49,10 @@ WEAK symbol<const dvar_s*(const char*, int, int, int, unsigned __int16,
                           const char*)>
     Dvar_RegisterInt{0x58D900, 0x651910};
 
-WEAK symbol<void(const char*, void(), cmd_function_t*)> Cmd_AddCommandInternal{
+WEAK symbol<void(const char*, void(), cmd_function_s*)> Cmd_AddCommandInternal{
     0x6AD580, 0x661400};
 WEAK symbol<void(const char* cmdName)> Cmd_RemoveCommand{0x527EA0, 0x5F1A90};
-WEAK symbol<cmd_function_t*(const char*)> Cmd_FindCommand{0x445B60, 0x479DD0};
+WEAK symbol<cmd_function_s*(const char*)> Cmd_FindCommand{0x445B60, 0x479DD0};
 
 WEAK symbol<char*(char*)> I_CleanStr{0x4B0700, 0x0};
 
