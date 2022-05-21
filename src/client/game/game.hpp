@@ -1,6 +1,6 @@
 #pragma once
 
-#define SELECT(mp, zm) (game::environment::t5mp() ? mp : zm)
+#define SELECT_VALUE(mp, zm) (game::environment::is_mp() ? (mp) : (zm))
 
 namespace game {
 enum gamemode { none, multiplayer, zombies };
@@ -8,8 +8,8 @@ enum gamemode { none, multiplayer, zombies };
 extern gamemode current;
 
 namespace environment {
-bool t5mp();
-bool t5zm();
+bool is_mp();
+bool is_sp();
 } // namespace environment
 
 template <typename T> class symbol {
@@ -17,8 +17,8 @@ public:
   symbol(const size_t t5mp, const size_t t5zm)
       : t5mp_(reinterpret_cast<T*>(t5mp)), t5zm_(reinterpret_cast<T*>(t5zm)) {}
 
-  T* get() const {
-    if (environment::t5mp()) {
+  [[nodiscard]] T* get() const {
+    if (environment::is_mp()) {
       return t5mp_;
     }
 

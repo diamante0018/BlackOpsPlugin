@@ -60,7 +60,7 @@ void client_command(int client_number) {
 class component final : public component_interface {
 public:
   void post_unpack() override {
-    utils::hook::call(SELECT(0x58DA1C, 0x4FB3BD), client_command);
+    utils::hook::call(SELECT_VALUE(0x58DA1C, 0x4FB3BD), client_command);
 
     add_chat_commands();
   }

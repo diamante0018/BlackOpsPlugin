@@ -1,8 +1,5 @@
 #pragma once
 
-#define BINARY_PAYLOAD_SIZE 0x0A000000
-#define TLS_PAYLOAD_SIZE 0x2000
-
 #define DLL_EXPORT extern "C" __declspec(dllexport)
 
 #define WIN32_LEAN_AND_MEAN

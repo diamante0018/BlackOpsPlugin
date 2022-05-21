@@ -69,12 +69,12 @@ void __declspec(naked) jump_start_sp_stub() {
 class component final : public component_interface {
 public:
   void post_unpack() override {
-    if (game::environment::t5mp()) {
+    if (game::environment::is_mp()) {
       jump_height = reinterpret_cast<game::dvar_s**>(0xC4F7D8);
       utils::hook::jump(0x5CE92F, jump_start_mp_stub);
     }
 
-    if (game::environment::t5zm()) {
+    if (game::environment::is_sp()) {
       player_sustainAmmo = reinterpret_cast<game::dvar_s**>(0xBCD250);
       pm_weapon_use_ammo_hook.create(0x6979B0, &pm_weapon_use_ammo_stub);
 
@@ -83,8 +83,8 @@ public:
     }
 
     player_sprintStrafeSpeedScale =
-        reinterpret_cast<game::dvar_s**>(SELECT(0xC51AE8, 0xBCD18C));
-    utils::hook::jump(SELECT(0x6344B0, 0x611BC0),
+        reinterpret_cast<game::dvar_s**>(SELECT_VALUE(0xC51AE8, 0xBCD18C));
+    utils::hook::jump(SELECT_VALUE(0x6344B0, 0x611BC0),
                       bg_get_sprint_strafe_speed_scale_stub);
   }
 };

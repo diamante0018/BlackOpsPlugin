@@ -58,8 +58,10 @@ WEAK symbol<char*(char*)> I_CleanStr{0x4B0700, 0x0};
 
 WEAK symbol<char*(int)> ConcatArgs{0x5D5F10, 0x4FB210};
 WEAK symbol<void(int)> ClientCommand{0x63DB70, 0x4AF770};
+
 WEAK symbol<void(gentity_s*, gentity_s*, int, const char*)> G_Say{0x51BBD0,
                                                                   0x49A790};
+WEAK symbol<void(const char* fmt, ...)> G_LogPrintf{0x5CD250, 0x69EA30};
 
 WEAK symbol<void(gentity_s*, unsigned __int16, unsigned int)> Scr_Notify{
     0x458D30, 0x0};
