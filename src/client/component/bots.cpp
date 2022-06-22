@@ -47,7 +47,7 @@ const char* sv_bot_name_random_stub() {
   }
 
   if (!bot_names.empty()) {
-    static size_t bot_id = 0;
+    static std::size_t bot_id = 0;
     bot_id %= bot_names.size();
     const auto& entry = bot_names.at(bot_id++);
     return entry.first.data();
@@ -57,8 +57,8 @@ const char* sv_bot_name_random_stub() {
 }
 
 int build_connect_string(char* buf, const char* connect_string,
-                         const char* name, const char* xuid, int protocol,
-                         int port) {
+                         const char* name, const char* bd_online_user_id,
+                         int protocol, int qport) {
   // Default
   auto clan_tag = "3arc"s;
   for (const auto& [bot_name, tag] : bot_names) {
@@ -70,7 +70,7 @@ int build_connect_string(char* buf, const char* connect_string,
   }
 
   return _snprintf_s(buf, 0x400, _TRUNCATE, connect_string, name,
-                     clan_tag.data(), xuid, protocol, port);
+                     clan_tag.data(), bd_online_user_id, protocol, qport);
 }
 } // namespace
 
@@ -80,12 +80,13 @@ public:
     if (game::current == game::gamemode::zombies)
       return;
 
+    // Add custom clantag
     utils::hook::set<const char*>(
         0x6B6294,
         "connect "
         "\"\\cg_predictItems\\1\\cl_punkbuster\\0\\cl_"
-        "anonymous\\0\\color\\4\\head\\"
-        "default\\model\\multi\\snaps\\20\\rate\\5000\\name\\%s\\clanAbbrev\\%"
+        "anonymous\\0\\color\\4\\head\\default\\"
+        " model\\multi\\snaps\\20\\rate\\5000\\name\\%s\\clanAbbrev\\%"
         "s\\bdOnlineUserID\\%s\\protocol\\%d\\qport\\%d\"");
 
     sv_bot_name_random_hook.create(0x49ED80, &sv_bot_name_random_stub);
