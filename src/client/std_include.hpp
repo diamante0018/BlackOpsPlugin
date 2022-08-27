@@ -18,10 +18,6 @@
 
 #pragma warning(disable : 26812)
 
-#include <rapidjson/document.h>
-#include <rapidjson/prettywriter.h>
-#include <rapidjson/stringbuffer.h>
-
 #pragma comment(lib, "ntdll.lib")
 
 using namespace std::literals;

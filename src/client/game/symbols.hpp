@@ -49,8 +49,9 @@ WEAK symbol<const dvar_s*(const char*, int, int, int, unsigned __int16,
                           const char*)>
     Dvar_RegisterInt{0x58D900, 0x651910};
 
-WEAK symbol<void(const char*, void(), cmd_function_s*)> Cmd_AddCommandInternal{
-    0x6AD580, 0x661400};
+WEAK symbol<void(const char* cmdName, void (*function)(),
+                 cmd_function_s* allocedCmd)>
+    Cmd_AddCommandInternal{0x6AD580, 0x661400};
 WEAK symbol<void(const char* cmdName)> Cmd_RemoveCommand{0x527EA0, 0x5F1A90};
 WEAK symbol<cmd_function_s*(const char*)> Cmd_FindCommand{0x445B60, 0x479DD0};
 
@@ -71,6 +72,7 @@ WEAK symbol<void(const float*, scriptInstance_t)> Scr_AddVector{0x532EF0, 0x0};
 WEAK symbol<int(const playerState_s*)> PM_GetEffectiveStance{0x659590, 0x0};
 
 WEAK symbol<CmdArgs> sv_cmd_args{0x355BD88, 0x243D208};
+
 WEAK symbol<int> dvarCount{0x385BE74, 0x261CBD4};
 WEAK symbol<dvar_t*> sortedDvars{0x385BE88, 0x261CBE8};
 WEAK symbol<client_s> svs_clients{0x372D11C, 0x286D01C};

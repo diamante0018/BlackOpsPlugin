@@ -1,5 +1,4 @@
 #include <std_include.hpp>
-
 #include "../loader/component_loader.hpp"
 
 #include <utils/string.hpp>
@@ -10,11 +9,11 @@
 constexpr auto CMD_MAX_NESTING = 8;
 
 namespace command {
-std::unordered_map<std::string, std::function<void(params&)>> handlers;
+std::unordered_map<std::string, std::function<void(const params_sv&)>> handlers;
 
 namespace {
 void cmd_vstr_f() {
-  const params params;
+  const params_sv params;
 
   if (params.size() < 2) {
     game::Com_Printf(game::CON_CHANNEL_DONT_FILTER,
@@ -43,7 +42,7 @@ void cmd_vstr_f() {
 } // namespace
 
 void main_handler() {
-  params params = {};
+  params_sv params = {};
 
   const auto command = utils::string::to_lower(params[0]);
 
@@ -52,13 +51,13 @@ void main_handler() {
   }
 }
 
-params::params() : nesting_(game::sv_cmd_args->nesting) {
+params_sv::params_sv() : nesting_(game::sv_cmd_args->nesting) {
   assert(game::sv_cmd_args->nesting < CMD_MAX_NESTING);
 }
 
-int params::size() const { return game::sv_cmd_args->argc[this->nesting_]; }
+int params_sv::size() const { return game::sv_cmd_args->argc[this->nesting_]; }
 
-const char* params::get(const int index) const {
+const char* params_sv::get(const int index) const {
   if (index >= this->size()) {
     return "";
   }
@@ -66,10 +65,10 @@ const char* params::get(const int index) const {
   return game::sv_cmd_args->argv[this->nesting_][index];
 }
 
-std::string params::join(const int index) const {
+std::string params_sv::join(const int index) const {
   std::string result = {};
 
-  for (auto i = index; i < this->size(); i++) {
+  for (auto i = index; i < this->size(); ++i) {
     if (i > index)
       result.append(" ");
     result.append(this->get(i));
@@ -83,7 +82,8 @@ void add_raw(const char* name, void (*callback)()) {
       utils::memory::get_allocator()->allocate<game::cmd_function_s>());
 }
 
-void add(const char* name, const std::function<void(const params&)>& callback) {
+void add(const char* name,
+         const std::function<void(const params_sv&)>& callback) {
   const auto command = utils::string::to_lower(name);
 
   if (!handlers.contains(command)) {
@@ -109,9 +109,10 @@ public:
 
 private:
   static void add_commands_generic() {
-    add("properQuit", [](const params&) { utils::nt::raise_hard_exception(); });
+    add("properQuit",
+        [](const params_sv&) { utils::nt::raise_hard_exception(); });
 
-    add("echo", [](const params& params) {
+    add("echo", [](const params_sv& params) {
       for (auto i = 1; i < params.size(); i++) {
         game::Com_Printf(game::CON_CHANNEL_DONT_FILTER, "%s ", params.get(i));
       }
