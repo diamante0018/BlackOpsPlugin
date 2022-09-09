@@ -31,6 +31,7 @@ end
 dependencies.load()
 
 workspace "black-ops-plugin"
+startproject "client"
 location "./build"
 objdir "%{wks.location}/obj"
 targetdir "%{wks.location}/bin/%{cfg.platform}/%{cfg.buildcfg}"
