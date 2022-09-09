@@ -90,10 +90,12 @@ private:
       game::G_Say(gentity, nullptr, 0, message.data());
     });
 
-    command::add("mutePlayer", [](const command::params_sv& params) {
+    command::add("muteClient", [](const command::params_sv& params) {
       if (params.size() < 2) {
         game::Com_Printf(game::CON_CHANNEL_DONT_FILTER,
-                         "Usage: mutePlayer <client number>\n");
+                         "Usage: %s <client number> : prevent the player from "
+                         "using the chat\n",
+                         params.get(0));
         return;
       }
 
@@ -110,17 +112,21 @@ private:
       mute_player(client);
     });
 
-    command::add("unmutePlayer", [](const command::params_sv& params) {
+    command::add("unmute", [](const command::params_sv& params) {
       if (params.size() < 2) {
         game::Com_Printf(game::CON_CHANNEL_DONT_FILTER,
-                         "Usage: unmutePlayer <client number>\n");
+                         "Usage: %s <client number>\n", params.get(0));
         return;
       }
 
       const auto* client = game::SV_GetPlayerByNum();
 
-      if (client == nullptr)
+      if (client == nullptr) {
+        if (std::strcmp(params.get(1), "all") == 0) {
+          mute_list.access([&](client_list& clients) { clients.clear(); });
+        }
         return;
+      }
 
       assert(client->gentity != nullptr);
 
