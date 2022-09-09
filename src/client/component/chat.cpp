@@ -14,6 +14,8 @@ utils::hook::detour client_command_hook;
 using client_list = std::unordered_set<std::uint64_t>;
 utils::concurrency::container<client_list> mute_list;
 
+const game::dvar_t* sv_disableChat;
+
 void mute_player(const game::client_s* client) {
   const auto xuid = client->xuid;
   mute_list.access([&](client_list& clients) { clients.insert(xuid); });
@@ -40,6 +42,13 @@ void client_command_stub(const int client_number) {
   game::SV_Cmd_ArgvBuffer(0, buf, sizeof(buf));
 
   if (utils::string::starts_with(buf, "say")) {
+    if (sv_disableChat->current.enabled) {
+      game::SV_GameSendServerCommand(
+          client_number, game::SV_CMD_CAN_IGNORE,
+          utils::string::va("%c \"Chat is disabled\"", 0x65));
+      return;
+    }
+
     const auto is_muted =
         mute_list.access<bool>([&](const client_list& clients) {
           return clients.contains(game::svs_clients[client_number].xuid);
@@ -62,8 +71,10 @@ public:
   void post_unpack() override {
     client_command_hook.create(SELECT_VALUE(0x63DB70, 0x4AF770),
                                client_command_stub);
-
     add_chat_commands();
+
+    sv_disableChat = game::Dvar_RegisterBool(
+        "sv_disableChat", false, 0, "Disable chat messages from clients");
   }
 
 private:
