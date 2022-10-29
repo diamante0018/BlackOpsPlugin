@@ -1,6 +1,8 @@
 [![build](https://github.com/diamante0018/BlackOpsPlugin/workflows/Build/badge.svg)](https://github.com/diamante0018/BlackOpsPlugin/actions)
 
 # Black-Ops-Plugin
+Welcome to the first Plugin ever made for Plutonium T5.
+This Plugin was ideated and written a full 6 months before the release of Plutonium T5. I consider that a personal best.
 I use this program to test experimental features. Some may end up in the plutonium client. Some may not.
 
 ## Thanks to
