@@ -1,3 +1,4 @@
+![license](https://img.shields.io/github/license/diamante0018/BlackOpsPlugin.svg)
 [![build](https://github.com/diamante0018/BlackOpsPlugin/workflows/Build/badge.svg)](https://github.com/diamante0018/BlackOpsPlugin/actions)
 
 # Black-Ops-Plugin
