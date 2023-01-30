@@ -12,6 +12,6 @@ bool is_sp() { return current == gamemode::zombies; }
 } // namespace environment
 
 int SV_IsTestClient(int clientNum) {
-  return svs_clients[clientNum].bIsTestClient == 1;
+  return svs_clients[clientNum].bIsTestClient;
 }
 } // namespace game
