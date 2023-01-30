@@ -9,8 +9,14 @@
 
 namespace patches {
 namespace {
+int bot_[32];
+int demo_client_[32];
 int client_num_;
 std::string status_;
+
+int is_test_client(int client_num) {
+  return bot_[client_num] == TRUE || demo_client_[client_num] == TRUE;
+}
 
 void server_status_basic_print([[maybe_unused]] const int channel,
                                const char* fmt) {
@@ -42,7 +48,7 @@ void server_status_client_number_print([[maybe_unused]] const int channel,
 void server_status_score_print([[maybe_unused]] const int channel,
                                const char* fmt, const int score) {
   status_.append(utils::string::va(fmt, score));
-  status_.append(utils::string::va("%3i ", game::SV_IsTestClient(client_num_)));
+  status_.append(utils::string::va("%3i ", is_test_client(client_num_)));
 }
 
 void server_status_ping_print([[maybe_unused]] const int channel,
@@ -88,11 +94,38 @@ void server_status_terminating_print([[maybe_unused]] const int channel,
   // clear the buffer
   status_.clear();
 }
+
+void sv_send_bot_client_game_state(game::client_s* client) {
+  game::Com_Printf(game::CON_CHANNEL_DONT_FILTER, "Bot joined on slot %i\n",
+                   client - game::svs_clients);
+  bot_[client - game::svs_clients] = 1;
+
+  utils::hook::invoke<void>(0x4A1940, client);
+}
+
+void sv_send_demo_client_game_state(game::client_s* client) {
+  game::Com_Printf(game::CON_CHANNEL_DONT_FILTER,
+                   "Demo client joined on slot %i\n",
+                   client - game::svs_clients);
+  demo_client_[client - game::svs_clients] = 1;
+
+  utils::hook::invoke<void>(0x4A1940, client);
+}
+
+void client_disconnect_stub(const int client_num) {
+  bot_[client_num] = FALSE;
+  demo_client_[client_num] = FALSE;
+
+  utils::hook::invoke<void>(0x66FA00, client_num);
+}
 } // namespace
 
 class component final : public component_interface {
 public:
   void post_unpack() override {
+    ZeroMemory(bot_, sizeof(int[32]));
+    ZeroMemory(demo_client_, sizeof(int[32]));
+
     if (game::environment::is_sp()) {
       return;
     }
@@ -132,6 +165,14 @@ public:
     utils::hook::call(0x8762BE, server_status_basic_print); // new line print
 
     utils::hook::call(0x8762E2, server_status_terminating_print);
+
+    utils::hook::call(0x8762E2, server_status_terminating_print);
+
+    utils::hook::call(0x40A509, sv_send_demo_client_game_state);
+
+    utils::hook::call(0x6B63A0, sv_send_bot_client_game_state);
+
+    utils::hook::call(0x5DC953, client_disconnect_stub);
   }
 };
 } // namespace patches
