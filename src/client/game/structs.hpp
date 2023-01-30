@@ -491,8 +491,11 @@ struct client_s {
   char name[32];                          // 21872
   char clanAbbrev[5];                     // 21904
   unsigned __int64 xuid;                  // 21912
-  unsigned char __pad0[0x76D48];
+  char __pad0[0x54FB0];
+  int bIsTestClient;
+  unsigned char __pad1[0x21D90];
 };
 
+static_assert(offsetof(client_s, bIsTestClient) == 0x5A550);
 static_assert(sizeof(client_s) == 0x7C2E8);
 } // namespace game

@@ -34,6 +34,7 @@ private:
   T* t5zm_;
 };
 
+extern bool SV_IsTestClient(int clientNum);
 } // namespace game
 
 #include "symbols.hpp"

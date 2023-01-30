@@ -10,4 +10,8 @@ bool is_mp() { return current == gamemode::multiplayer; }
 
 bool is_sp() { return current == gamemode::zombies; }
 } // namespace environment
+
+bool SV_IsTestClient(int clientNum) {
+  return svs_clients[clientNum].bIsTestClient == 1;
+}
 } // namespace game
