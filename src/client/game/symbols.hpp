@@ -27,6 +27,8 @@ WEAK symbol<void(client_s*, const char*)> SV_DelayDropClient{0x4A8DC0,
                                                              0x4A2EB0};
 WEAK symbol<client_s*()> SV_GetPlayerByName{0x875180, 0x87C350};
 WEAK symbol<client_s*()> SV_GetPlayerByNum{0x875260, 0x87C430};
+WEAK symbol<bool(int clientNum)> SV_IsTestClient{0x4FF4C0, 0x0};
+WEAK symbol<bool(int clientNum)> SV_IsDemoClient{0x534DC0, 0x0};
 
 WEAK symbol<bool(netsrc_t, netadr_s, const char*)> NET_OutOfBandPrint{0x560BB0,
                                                                       0x472850};

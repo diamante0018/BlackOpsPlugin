@@ -33,8 +33,6 @@ private:
   T* t5mp_;
   T* t5zm_;
 };
-
-extern int SV_IsTestClient(int clientNum);
 } // namespace game
 
 #include "symbols.hpp"
