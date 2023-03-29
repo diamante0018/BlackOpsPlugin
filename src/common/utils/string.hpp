@@ -39,7 +39,7 @@ private:
   class entry final {
   public:
     explicit entry(const size_t size = min_buffer_size)
-        : size(size), buffer_(nullptr) {
+        : size_(size), buffer_(nullptr) {
       if (this->size_ < min_buffer_size)
         this->size_ = min_buffer_size;
       this->allocate();
