@@ -32,7 +32,7 @@ public:
       entry->double_size();
     }
 
-    return entry->buffer;
+    return entry->buffer_;
   }
 
 private:
