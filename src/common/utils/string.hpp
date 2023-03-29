@@ -69,7 +69,7 @@ private:
   };
 
   size_t current_buffer_;
-  entry string_pool_[Buffers];
+  entry string_pool_[buffers];
 };
 
 const char* va(const char* fmt, ...);
