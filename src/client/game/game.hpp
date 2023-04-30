@@ -1,7 +1,5 @@
 #pragma once
 
-#define SELECT_VALUE(mp, zm) (game::environment::is_mp() ? (mp) : (zm))
-
 namespace game {
 enum gamemode { none, multiplayer, zombies };
 
@@ -33,6 +31,15 @@ private:
   T* t5mp_;
   T* t5zm_;
 };
+
+inline std::size_t select(const std::size_t mp_val, const std::size_t sp_val) {
+  return environment::is_mp() ? mp_val : sp_val;
+}
+
+inline std::size_t select(const void* mp_val, const void* sp_val) {
+  return select(reinterpret_cast<std::size_t>(mp_val),
+                reinterpret_cast<std::size_t>(sp_val));
+}
 } // namespace game
 
 #include "symbols.hpp"

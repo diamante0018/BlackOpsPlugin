@@ -1,5 +1,4 @@
 #include <std_include.hpp>
-#include "loader/component_loader.hpp"
 
 #include <utils/string.hpp>
 #include <utils/nt.hpp>
@@ -10,36 +9,6 @@ constexpr auto CMD_MAX_NESTING = 8;
 
 namespace command {
 std::unordered_map<std::string, std::function<void(const params_sv&)>> handlers;
-
-namespace {
-void cmd_vstr_f() {
-  const params_sv params;
-
-  if (params.size() < 2) {
-    game::Com_Printf(game::CON_CHANNEL_DONT_FILTER,
-                     "vstr <variablename> : execute a variable command\n");
-    return;
-  }
-
-  const auto* dvar_name = params.get(1);
-  const auto* dvar = game::Dvar_FindVar(dvar_name);
-
-  if (dvar == nullptr) {
-    game::Com_Printf(game::CON_CHANNEL_DONT_FILTER, "%s doesn't exist\n",
-                     dvar_name);
-    return;
-  }
-
-  if (dvar->type == game::DVAR_TYPE_STRING ||
-      dvar->type == game::DVAR_TYPE_ENUM) {
-    // Adds \n automatically
-    execute(dvar->current.string);
-  } else {
-    game::Com_Printf(game::CON_CHANNEL_DONT_FILTER,
-                     "%s is not a string-based dvar\n", dvar->name);
-  }
-}
-} // namespace
 
 void main_handler() {
   params_sv params = {};
@@ -66,7 +35,7 @@ const char* params_sv::get(const int index) const {
 }
 
 std::string params_sv::join(const int index) const {
-  std::string result = {};
+  std::string result;
 
   for (auto i = index; i < this->size(); ++i) {
     if (i > index)
@@ -78,12 +47,15 @@ std::string params_sv::join(const int index) const {
 
 void add_raw(const char* name, void (*callback)()) {
   game::Cmd_AddCommandInternal(
+      name, game::Cbuf_AddServerText_f,
+      utils::memory::get_allocator()->allocate<game::cmd_function_s>());
+  game::Cmd_AddServerCommandInternal(
       name, callback,
       utils::memory::get_allocator()->allocate<game::cmd_function_s>());
 }
 
-void add(const char* name,
-         const std::function<void(const params_sv&)>& callback) {
+void add_sv(const char* name,
+            const std::function<void(const params_sv&)>& callback) {
   const auto command = utils::string::to_lower(name);
 
   if (!handlers.contains(command)) {
@@ -102,31 +74,4 @@ void execute(std::string command, const bool sync) {
     game::Cbuf_AddText(game::LOCAL_CLIENT_0, command.data());
   }
 }
-
-class component final : public component_interface {
-public:
-  void post_unpack() override { add_commands_generic(); }
-
-private:
-  static void add_commands_generic() {
-    add("properQuit",
-        [](const params_sv&) { utils::nt::raise_hard_exception(); });
-
-    add("echo", [](const params_sv& params) {
-      for (auto i = 1; i < params.size(); i++) {
-        game::Com_Printf(game::CON_CHANNEL_DONT_FILTER, "%s ", params.get(i));
-      }
-
-      game::Com_Printf(game::CON_CHANNEL_DONT_FILTER, "\n");
-    });
-
-    // Override vstr this way
-    auto* cmd = game::Cmd_FindCommand("vstr");
-    if (cmd != nullptr) {
-      cmd->function = cmd_vstr_f;
-    }
-  }
-};
 } // namespace command
-
-REGISTER_COMPONENT(command::component)

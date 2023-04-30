@@ -54,6 +54,10 @@ WEAK symbol<const dvar_s*(const char*, int, int, int, unsigned __int16,
 WEAK symbol<void(const char* cmdName, void (*function)(),
                  cmd_function_s* allocedCmd)>
     Cmd_AddCommandInternal{0x6AD580, 0x661400};
+WEAK symbol<void(const char* cmdName, void (*function)(),
+                 cmd_function_s* allocedCmd)>
+    Cmd_AddServerCommandInternal{0x466930, 0x558290};
+WEAK symbol<void()> Cbuf_AddServerText_f{0x48F620, 0x651A30};
 WEAK symbol<void(const char* cmdName)> Cmd_RemoveCommand{0x527EA0, 0x5F1A90};
 WEAK symbol<cmd_function_s*(const char*)> Cmd_FindCommand{0x445B60, 0x479DD0};
 
