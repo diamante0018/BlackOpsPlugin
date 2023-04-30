@@ -43,6 +43,11 @@ public:
     auto* cmd_vstr_f_var = reinterpret_cast<game::cmd_function_s*>(
         game::select(0x355E69C, 0x243FB1C));
     cmd_vstr_f_var->function = cmd_vstr_f;
+
+   if (game::environment::is_sp()) {
+      // Fix (client) crash from SV_DropClient (server side)
+      utils::hook::set<std::uint8_t>(0x634C1D, 0xEB);
+   }
   }
 };
 } // namespace command_additions
