@@ -8,16 +8,46 @@
 constexpr auto CMD_MAX_NESTING = 8;
 
 namespace command {
-std::unordered_map<std::string, std::function<void(const params_sv&)>> handlers;
+std::unordered_map<std::string, sv_command_param_function> handlers;
+
+game::CmdArgs* get_cmd_args() {
+  return static_cast<game::CmdArgs*>(
+      game::Sys_GetValue(game::THREAD_VALUE_CMD));
+}
 
 void main_handler() {
-  params_sv params = {};
+  params_sv params;
 
   const auto command = utils::string::to_lower(params[0]);
 
   if (const auto got = handlers.find(command); got != handlers.end()) {
     got->second(params);
   }
+}
+
+params::params() : nesting_(get_cmd_args()->nesting) {
+  assert(this->nesting_ < game::CMD_MAX_NESTING);
+}
+
+int params::size() const { return get_cmd_args()->argc[this->nesting_]; }
+
+const char* params::get(const int index) const {
+  if (index >= this->size()) {
+    return "";
+  }
+
+  return get_cmd_args()->argv[this->nesting_][index];
+}
+
+std::string params::join(const int index) const {
+  std::string result;
+
+  for (auto i = index; i < this->size(); i++) {
+    if (i > index)
+      result.append(" ");
+    result.append(this->get(i));
+  }
+  return result;
 }
 
 params_sv::params_sv() : nesting_(game::sv_cmd_args->nesting) {
@@ -54,8 +84,7 @@ void add_raw(const char* name, void (*callback)()) {
       utils::memory::get_allocator()->allocate<game::cmd_function_s>());
 }
 
-void add_sv(const char* name,
-            const std::function<void(const params_sv&)>& callback) {
+void add_sv(const char* name, const sv_command_param_function& callback) {
   const auto command = utils::string::to_lower(name);
 
   if (!handlers.contains(command)) {

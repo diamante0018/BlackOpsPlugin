@@ -158,6 +158,15 @@ struct CmdArgs {
 
 static_assert(sizeof(CmdArgs) == 10476);
 
+enum {
+  THREAD_VALUE_PROF_STACK = 0x0,
+  THREAD_VALUE_VA = 0x1,
+  THREAD_VALUE_COM_ERROR = 0x2,
+  THREAD_VALUE_TRACE = 0x3,
+  THREAD_VALUE_CMD = 0x4,
+  THREAD_VALUE_COUNT = 0x5,
+};
+
 typedef enum {
   NA_BOT = 0x0,
   NA_BAD = 0x1,

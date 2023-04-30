@@ -18,6 +18,8 @@ WEAK symbol<void(LocalClientNum_t, const char* text)> Cbuf_InsertText{0x695E10,
 WEAK symbol<void(LocalClientNum_t, int controllerIndex, const char* text)>
     Cmd_ExecuteSingleCommand{0x50B470, 0x829AD0};
 
+WEAK symbol<void*(int valueIndex)> Sys_GetValue{0x529EB0, 0x67D4F0};
+
 WEAK symbol<void(client_s*, svscmd_type, const char*, ...)>
     SV_SendServerCommand{0x588B10, 0x6106E0};
 WEAK symbol<void(int, svscmd_type, const char*)> SV_GameSendServerCommand{
