@@ -26,7 +26,7 @@ void main_handler() {
 }
 
 params::params() : nesting_(get_cmd_args()->nesting) {
-  assert(this->nesting_ < game::CMD_MAX_NESTING);
+  assert(this->nesting_ < CMD_MAX_NESTING);
 }
 
 int params::size() const { return get_cmd_args()->argc[this->nesting_]; }
