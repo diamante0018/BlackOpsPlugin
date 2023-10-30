@@ -87,11 +87,6 @@ std::string dump_hex(const std::string& data,
 
 std::string get_clipboard_data();
 
-void strip(const char* in, char* out, size_t max);
-
-std::string convert(const std::wstring& wstr);
-std::wstring convert(const std::string& str);
-
 std::string replace(std::string str, const std::string& from,
                     const std::string& to);
 } // namespace utils::string

@@ -6,7 +6,7 @@ library library::load(const std::string& name) {
 }
 
 library library::load(const std::filesystem::path& path) {
-  return library::load(path.generic_string());
+  return load(path.generic_string());
 }
 
 library library::get_by_address(void* address) {
@@ -98,7 +98,7 @@ bool library::is_valid() const {
 
 std::string library::get_name() const {
   if (!this->is_valid())
-    return "";
+    return {};
 
   auto path = this->get_path();
   const auto pos = path.find_last_of("/\\");
@@ -110,9 +110,9 @@ std::string library::get_name() const {
 
 std::string library::get_path() const {
   if (!this->is_valid())
-    return "";
+    return {};
 
-  char name[MAX_PATH] = {0};
+  char name[MAX_PATH]{};
   GetModuleFileNameA(this->module_, name, sizeof name);
 
   return name;
@@ -120,7 +120,7 @@ std::string library::get_path() const {
 
 std::string library::get_folder() const {
   if (!this->is_valid())
-    return "";
+    return {};
 
   const auto path = std::filesystem::path(this->get_path());
   return path.parent_path().generic_string();
@@ -221,7 +221,7 @@ void relaunch_self() {
   ZeroMemory(&process_info, sizeof(process_info));
   startup_info.cb = sizeof(startup_info);
 
-  char current_dir[MAX_PATH];
+  char current_dir[MAX_PATH]{};
   GetCurrentDirectoryA(sizeof(current_dir), current_dir);
   auto* const command_line = GetCommandLineA();
 

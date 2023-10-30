@@ -93,51 +93,6 @@ std::string get_clipboard_data() {
   return {};
 }
 
-void strip(const char* in, char* out, size_t max) {
-  if (!in || !out)
-    return;
-
-  max--;
-  size_t current = 0;
-  while (*in != 0 && current < max) {
-    const auto color_index = (*(in + 1) - 48) >= 0xC ? 7 : (*(in + 1) - 48);
-
-    if (*in == '^' && (color_index != 7 || *(in + 1) == '7')) {
-      ++in;
-    } else {
-      *out = *in;
-      ++out;
-      ++current;
-    }
-
-    ++in;
-  }
-
-  *out = '\0';
-}
-
-std::string convert(const std::wstring& wstr) {
-  std::string result;
-  result.reserve(wstr.size());
-
-  for (const auto& chr : wstr) {
-    result.push_back(static_cast<char>(chr));
-  }
-
-  return result;
-}
-
-std::wstring convert(const std::string& str) {
-  std::wstring result;
-  result.reserve(str.size());
-
-  for (const auto& chr : str) {
-    result.push_back(static_cast<wchar_t>(chr));
-  }
-
-  return result;
-}
-
 std::string replace(std::string str, const std::string& from,
                     const std::string& to) {
   if (from.empty()) {
